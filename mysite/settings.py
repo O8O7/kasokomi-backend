@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import timedelta
+import os
 
 from templated_mail.mail import BaseEmailMessage
 
@@ -16,7 +17,7 @@ SECRET_KEY = 'django-insecure-47$10)sj8p81rp*fy+8z88%9wn6xrxvzb+gov=s$%*s6xit(=_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000']
 
 
 # Application definition
@@ -76,7 +77,18 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            # "hosts": [('127.0.0.1', 6379)],
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        'OPTIONS': {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
     },
 }
@@ -131,8 +143,10 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-STATIC_ROOT = BASE_DIR / 'staticfiles/'
-STATIC_FILES_DIRS = BASE_DIR / 'static'
+# STATIC_ROOT = BASE_DIR / 'staticfiles/'
+# STATIC_FILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_FILES_DIRS = [os.path.join(BASE_DIR / 'static')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
