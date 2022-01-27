@@ -230,10 +230,10 @@ DJOSER = {
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
-    '.herokuapp.com',
-    '127.0.0.1:8000',
-    'localhost', 
-    '127.0.0.1'
+    'https://kasokomi.herokuapp.com',
+    'http://127.0.0.1:8000',
+    'http://localhost', 
+    'http://127.0.0.1'
 )
 
 ASGI_APPLICATION = "mysite.asgi.application"
