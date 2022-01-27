@@ -19,7 +19,7 @@ Django
 django-cors-headers
 django-redis
 django-templated-mail
-djangorestframework==3.11.2
+djangorestframework
 djangorestframework-simplejwt
 djoser
 gunicorn
