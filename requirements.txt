@@ -17,11 +17,13 @@ daphne
 Deprecated
 Django
 django-cors-headers
+django-heroku
 django-redis
 django-redis-cache
 django-templated-mail
 djangorestframework
 djangorestframework-simplejwt
+dj-database-url
 djoser
 gunicorn
 hiredis
