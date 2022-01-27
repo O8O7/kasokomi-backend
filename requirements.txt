@@ -18,6 +18,7 @@ Deprecated
 Django
 django-cors-headers
 django-redis
+django-redis-cache
 django-templated-mail
 djangorestframework
 djangorestframework-simplejwt
