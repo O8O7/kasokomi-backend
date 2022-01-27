@@ -17,7 +17,6 @@ daphne
 Deprecated
 Django
 django-cors-headers
-django-heroku
 django-redis
 django-redis-cache
 django-templated-mail
