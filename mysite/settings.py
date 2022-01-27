@@ -2,7 +2,6 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
-from templated_mail.mail import BaseEmailMessage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -17,12 +16,18 @@ SECRET_KEY = 'django-insecure-47$10)sj8p81rp*fy+8z88%9wn6xrxvzb+gov=s$%*s6xit(=_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'djoser',
+    'corsheaders',
+    'accounts',
+    'app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,11 +37,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'channels',
-    'corsheaders',
-    'accounts',
-    'app',
-    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +49,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -70,28 +69,13 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.UserAccount'
+
+# ASGI_APPLICATION = "mysite.asgi.application"
 WSGI_APPLICATION = 'mysite.wsgi.application'
-ASGI_APPLICATION = "mysite.asgi.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            # "hosts": [('127.0.0.1', 6379)],
-            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-        },
-    },
-}
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-#         'OPTIONS': {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         },
-#     },
-# }
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -145,7 +129,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_FILES_DIRS = [os.path.join(BASE_DIR / 'static')]
+STATIC_FILES_DIRS = [os.path.join(BASE_DIR / 'static')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -241,8 +225,31 @@ DJOSER = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.UserAccount'
+# AUTH_USER_MODEL = 'accounts.UserAccount'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
+
+ASGI_APPLICATION = "mysite.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            # "hosts": [('127.0.0.1', 6379)],
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+            # "hosts": [os.environ.get('REDIS_URL', 6379)],
+            # "hosts": [('REDIS_URL', 6379)],
+        },
+    },
+}
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#         'OPTIONS': {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     },
+# }
