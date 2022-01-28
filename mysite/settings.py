@@ -154,8 +154,8 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'kamotoshi.workingo@gmail.com'
 EMAIL_HOST_PASSWORD = 'apikey'
-EMAIL_USE_TLS = True
-# EMAIL_USE_TLS = False
+# EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
