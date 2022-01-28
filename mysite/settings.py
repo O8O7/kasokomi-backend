@@ -160,7 +160,8 @@ EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-DOMAIN = ('localhost:3000')
+# DOMAIN = ('localhost:3000')
+DOMAIN = ('kasokomi.herokuapp.com')
 # SITE_NAME = ('YOUR_SITE_NAME')
 
 REST_FRAMEWORK = {
@@ -239,7 +240,10 @@ DJOSER = {
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'https://kasokomi-frontend.vercel.app',
     'https://kasokomi.herokuapp.com',
+    'https://kasokomi-frontend-git-main-sakamoto-shun.vercel.app',
+    'https://kasokomi-frontend-sakamoto-shun.vercel.app',
     'http://127.0.0.1:8000',
     'http://localhost', 
     'http://127.0.0.1'
