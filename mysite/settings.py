@@ -285,16 +285,15 @@ except ImportError:
 if not DEBUG:
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-    from .storage_backends import MediaStorage
-    DEFAULT_FILE_STORAGE = MediaStorage()
-    S3_URL = '%s.s3.amazonaws.com/' % S3_BUCKET_NAME
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     MEDIA_URL = S3_URL
-    AWS_LOCATION = 'static'
-    STATIC_URL = 'https://%s/%s/' % (S3_URL, AWS_LOCATION)
+    # AWS_LOCATION = 'static'
+    # STATIC_URL = 'http://%s/%s/' % (S3_URL, AWS_LOCATION)
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
 
