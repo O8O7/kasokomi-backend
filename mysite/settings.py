@@ -273,7 +273,8 @@ CACHES = {
     },
 }
 
-DEBUG = False
+# DEBUG = False
+DEBUG = True
 
 try:
     from .local_settings import *

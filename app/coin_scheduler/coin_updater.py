@@ -5,6 +5,6 @@ from app.views import CoinMarketView
 def start():
     scheduler = BackgroundScheduler(timezone="Asia/Tokyo")
     coin = CoinMarketView()
-    scheduler.add_job(coin.save_coin_data, "interval", minutes=60,
+    scheduler.add_job(coin.save_coin_data, "interval", minutes=10,
                       id="coinFetch_001", replace_existing=True)
     scheduler.start()
