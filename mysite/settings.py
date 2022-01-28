@@ -242,6 +242,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://www.kamotoshi.site',
     'https://kamotoshi.site',
+    'https://kasokomi-frontend.vercel.app',
     'http://127.0.0.1:8000',
     'http://localhost', 
     'http://127.0.0.1'
