@@ -229,7 +229,7 @@ except ImportError:
 
 if not DEBUG:
     # 送信元メールアドレス
-    DEFAULT_FROM_EMAIL = ['DEFAULT_FROM_EMAIL']
+    DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
     # SendGridのAPIキー
     SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
     # 本番環境用
