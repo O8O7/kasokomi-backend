@@ -201,8 +201,8 @@ CACHES = {
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 
 # SendGrid
