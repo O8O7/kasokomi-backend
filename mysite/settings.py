@@ -136,9 +136,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = BASE_DIR / 'media'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_FILES_DIRS = [os.path.join(BASE_DIR / 'static')]
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
@@ -153,10 +150,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # 詳しくは→[https://docs.djangoproject.com/en/4.0/ref/settings/]に記載されている
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'kamotoshi.workingo@gmail.com'
-EMAIL_HOST_PASSWORD = 'Syun!0514'
+EMAIL_HOST_PASSWORD = 'apikey'
 EMAIL_USE_TLS = True
 # EMAIL_USE_TLS = False
 # EMAIL_USE_SSL = True
@@ -238,7 +235,7 @@ DJOSER = {
     }
 }
 
-# AUTH_USER_MODEL = 'accounts.UserAccount'
+AUTH_USER_MODEL = 'accounts.UserAccount'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
@@ -283,6 +280,9 @@ except ImportError:
     pass
 
 if not DEBUG:
+    SECRET_KEY = os.environ['SENDGRID_API_KEY']
+    EMAIL_HOST_PASSWORD = SECRET_KEY
+    EMAIL_HOST_USER = os.environ['SENDGRID_HOST_USER']
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
