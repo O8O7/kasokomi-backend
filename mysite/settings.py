@@ -240,10 +240,8 @@ DJOSER = {
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
-    'https://kasokomi-frontend.vercel.app',
-    'https://kasokomi.herokuapp.com',
-    'https://kasokomi-frontend-git-main-sakamoto-shun.vercel.app',
-    'https://kasokomi-frontend-sakamoto-shun.vercel.app',
+    'https://www.kamotoshi.site',
+    'https://kamotoshi.site',
     'http://127.0.0.1:8000',
     'http://localhost', 
     'http://127.0.0.1'
