@@ -8,5 +8,5 @@ class AppConfig(AppConfig):
     # # コイン情報をスケジュールで取得する
     def ready(self):
         print("Starting Scheduler")
-        # from .coin_scheduler import coin_updater
-        # coin_updater.start()
+        from .coin_scheduler import coin_updater
+        coin_updater.start()
