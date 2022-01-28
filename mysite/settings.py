@@ -6,9 +6,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Heroku用
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -18,7 +15,6 @@ SECRET_KEY = 'django-insecure-47$10)sj8p81rp*fy+8z88%9wn6xrxvzb+gov=s$%*s6xit(=_
 
 
 ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost', '127.0.0.1', 'kasokomi.herokuapp.com']
-# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -143,21 +139,6 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# ローカル確認用
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# 本番環境用
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# 詳しくは→[https://docs.djangoproject.com/en/4.0/ref/settings/]に記載されている
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'kamotoshi.workingo@gmail.com'
-EMAIL_HOST_PASSWORD = 'apikey'
-# EMAIL_USE_TLS = True
-EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # DOMAIN = ('localhost:3000')
 DOMAIN = ('kasokomi.site')
@@ -173,7 +154,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         # "rest_framework.authentication.TokenAuthentication",
     ],
-    'DATETIME_FORMAT': '%m/%d %H:%M'
+    'DATETIME_FORMAT': '%m/%d %H:%M',
 }
 
 SIMPLE_JWT = {
@@ -184,7 +165,7 @@ SIMPLE_JWT = {
     # 認証タイプ
     'AUTH_HEADER_TYPES': ('JWT', ),
     # 認証トークン
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', )
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', ),
 }
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
@@ -220,8 +201,26 @@ CACHES = {
 }
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
+
+
+# SendGrid
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+
+# 送信元メールアドレス
+DEFAULT_FROM_EMAIL = 'testtest'
+# SendGridのAPIキー
+SENDGRID_API_KEY = 'apikey'
+
+# ローカル用
+SENDGRID_SANDBOX_MODE_IN_DEBUG = True
+
+# URLのトラッキングをOFF
+# SENDGRID_TRACK_CLICKS_PLAIN = False
+
+# ターミナルに表示
+# SENDGRID_ECHO_TO_STDOUT = True
 
 try:
     from .local_settings import *
@@ -229,9 +228,16 @@ except ImportError:
     pass
 
 if not DEBUG:
-    SECRET_KEY = os.environ['SENDGRID_API_KEY']
-    EMAIL_HOST_PASSWORD = SECRET_KEY
-    EMAIL_HOST_USER = os.environ['SENDGRID_HOST_USER']
+    # 送信元メールアドレス
+    DEFAULT_FROM_EMAIL = ['DEFAULT_FROM_EMAIL']
+    # SendGridのAPIキー
+    SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
+    # 本番環境用
+    SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+    # URLのトラッキングをOFF
+    # SENDGRID_TRACK_CLICKS_PLAIN = False
+    SENDGRID_TRACK_CLICKS_PLAIN = True
+    SENDGRID_ECHO_TO_STDOUT = False
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
@@ -283,7 +289,7 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create':  'accounts.serializers.UserSerializer',
         'user':         'accounts.serializers.UserSerializer',
-        'current_user': 'accounts.serializers.UserSerializer'
+        'current_user': 'accounts.serializers.UserSerializer',
     },
     'EMAIL': {
         # アカウント本登録

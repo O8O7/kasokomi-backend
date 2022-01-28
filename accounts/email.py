@@ -13,7 +13,7 @@ class EmailManager(BaseEmailMessage):
         self.reply_to = kwags.pop('reply_to', [])
         self.from_email = kwags.pop(
             'from_email',
-            'フルスタックチャンネル <' + settings.DEFAULT_FROM_EMAIL + '>'
+            '仮想コミ <' + settings.DEFAULT_FROM_EMAIL + '>'
         )
         super(BaseEmailMessage, self).send(*args, **kwags)
 
