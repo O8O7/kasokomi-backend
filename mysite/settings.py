@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-47$10)sj8p81rp*fy+8z88%9wn6xrxvzb+gov=s$%*s6xit(=_'
 
 
-ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost', '127.0.0.1', 'kasokomi.herokuapp.com']
 # ALLOWED_HOSTS = ['*']
 
 
@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
 
@@ -273,8 +274,8 @@ CACHES = {
     },
 }
 
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 try:
     from .local_settings import *
