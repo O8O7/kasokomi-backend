@@ -160,7 +160,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # DOMAIN = ('localhost:3000')
-DOMAIN = ('kasokomi.herokuapp.com')
+DOMAIN = ('kasokomi.site')
 # SITE_NAME = ('YOUR_SITE_NAME')
 
 REST_FRAMEWORK = {
@@ -186,6 +186,72 @@ SIMPLE_JWT = {
     # 認証トークン
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', )
 }
+
+AUTH_USER_MODEL = 'accounts.UserAccount'
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'https://kasokomi.site',
+    'https://www.kasokomi.site',
+    'https://kasokomi-frontend.vercel.app',
+    'http://localhost', 
+    'http://127.0.0.1'
+)
+
+ASGI_APPLICATION = "mysite.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            # "hosts": [('127.0.0.1', 6379)],
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        'OPTIONS': {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+DEBUG = False
+# DEBUG = True
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+if not DEBUG:
+    SECRET_KEY = os.environ['SENDGRID_API_KEY']
+    EMAIL_HOST_PASSWORD = SECRET_KEY
+    EMAIL_HOST_USER = os.environ['SENDGRID_HOST_USER']
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+    MEDIA_URL = S3_URL
+    # AWS_LOCATION = 'static'
+    # STATIC_URL = 'http://%s/%s/' % (S3_URL, AWS_LOCATION)
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+
+    import django_heroku
+    django_heroku.settings(locals())
+
+    import dj_database_url
+    db_from_env = dj_database_url.config()
+    DATABASES['default'].update(db_from_env)
 
 DJOSER = {
     # メールアドレスでログイン
@@ -234,72 +300,3 @@ DJOSER = {
         'username_reset':                'accounts.email.UsernameResetEmail',
     }
 }
-
-AUTH_USER_MODEL = 'accounts.UserAccount'
-
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'https://kasokomi.site',
-    'https://www.kasokomi.site',
-    'https://kasokomi-frontend.vercel.app',
-    'http://127.0.0.1:8000',
-    'http://localhost', 
-    'http://127.0.0.1'
-)
-
-ASGI_APPLICATION = "mysite.asgi.application"
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            # "hosts": [('127.0.0.1', 6379)],
-            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-            # "hosts": [os.environ.get('REDIS_URL', 6379)],
-            # "hosts": [('REDIS_URL', 6379)],
-        },
-    },
-}
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
-        'OPTIONS': {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    },
-}
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEBUG = False
-# DEBUG = True
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-
-if not DEBUG:
-    SECRET_KEY = os.environ['SENDGRID_API_KEY']
-    EMAIL_HOST_PASSWORD = SECRET_KEY
-    EMAIL_HOST_USER = os.environ['SENDGRID_HOST_USER']
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    MEDIA_URL = S3_URL
-    # AWS_LOCATION = 'static'
-    # STATIC_URL = 'http://%s/%s/' % (S3_URL, AWS_LOCATION)
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_DEFAULT_ACL = None
-
-    import django_heroku
-    django_heroku.settings(locals())
-
-    import dj_database_url
-    db_from_env = dj_database_url.config()
-    DATABASES['default'].update(db_from_env)
