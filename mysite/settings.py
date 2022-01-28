@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -128,7 +129,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-BASE_DIR= os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR / 'staticfiles/'
 # collectstatic展開用の静的ファイルを収集するディレクトリへの絶対パス
@@ -283,8 +283,19 @@ except ImportError:
     pass
 
 if not DEBUG:
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    S3_URL = 'http://%s.s3.amazonaws.com/' % S3_BUCKET_NAME
+    MEDIA_URL = S3_URL
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+
+    import django_heroku
+    django_heroku.settings(locals())
+
     import dj_database_url
     db_from_env = dj_database_url.config()
     DATABASES['default'].update(db_from_env)
-    import django_heroku
-    django_heroku.settings(locals())
