@@ -82,15 +82,15 @@ class CoinMarketView(ModelViewSet):
                 for coin_list in coin_data:
                     # 100個のデータを最新情報にアップデートする
                     rank_id = coin_list["cmc_rank"]
-                    coin_objects = CoinMarketInfo.objects.get(rank=rank_id)
-                    coin_objects.name = coin_list["name"]
-                    coin_objects.symbol = coin_list["symbol"]
-                    coin_objects.day_perchange = coin_list["quote"]["USD"]["percent_change_24h"]
-                    coin_objects.market_cap = coin_list["quote"]["USD"]["market_cap"]
-                    coin_objects.last_updated = coin_list["quote"]["USD"]["last_updated"]
+                    # coin_objects = CoinMarketInfo.objects.get(rank=rank_id)
+                    # coin_objects.name = coin_list["name"]
+                    # coin_objects.symbol = coin_list["symbol"]
+                    # coin_objects.day_perchange = coin_list["quote"]["USD"]["percent_change_24h"]
+                    # coin_objects.market_cap = coin_list["quote"]["USD"]["market_cap"]
+                    # coin_objects.last_updated = coin_list["quote"]["USD"]["last_updated"]
                     # 100個コインの情報を取得して作成する
-                    # coin_objects = CoinMarketInfo.objects.create(name=coin_list["name"], symbol=coin_list["symbol"], rank=coin_list["cmc_rank"], day_perchange=coin_list[
-                    #                                              "quote"]["USD"]["percent_change_24h"], market_cap=coin_list["quote"]["USD"]["market_cap"], last_updated=coin_list["quote"]["USD"]["last_updated"])
+                    coin_objects = CoinMarketInfo.objects.create(name=coin_list["name"], symbol=coin_list["symbol"], rank=coin_list["cmc_rank"], day_perchange=coin_list[
+                                                                 "quote"]["USD"]["percent_change_24h"], market_cap=coin_list["quote"]["USD"]["market_cap"], last_updated=coin_list["quote"]["USD"]["last_updated"])
                     coin_objects.save()
             except:
                 pass
