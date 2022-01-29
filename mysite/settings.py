@@ -70,7 +70,7 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
 
-# ASGI_APPLICATION = "mysite.asgi.application"
+ASGI_APPLICATION = "mysite.asgi.application"
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
