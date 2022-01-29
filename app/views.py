@@ -40,7 +40,7 @@ class ChatMessageView(ModelViewSet):
 
 class CoinMarketView(ModelViewSet):
     permission_classes = (permissions.AllowAny, )
-    queryset = CoinMarketInfo.objects.all()
+    queryset = CoinMarketInfo.objects.all().order_by('rank')
     serializer_class = CoinMarketInfoSerializer
 
     def get_queryset(self):
@@ -94,49 +94,6 @@ class CoinMarketView(ModelViewSet):
                     coin_objects.save()
             except:
                 pass
-
-# def get_last_10_messages(chatId):
-#     chat = get_object_or_404(ChatMessage, id=chatId)
-#     return chat.comment.order_by('-posted_at').all()[:10]
-
-
-# def get_last_10_messages(room_name):
-#     chat = ChatMessage.objects.filter(room_name__name=room_name)[:10]
-#     return chat
-
-
-# def get_user_contact(username):
-#     user = get_object_or_404(User, name=username)
-#     return user
-
-
-# def get_current_chat(chatId):
-#     return get_object_or_404(ChatMessage, id=chatId)
-
-
-# def get_room_name(room_name):
-#     room = get_object_or_404(ChatRoom, name=room_name)
-#     return room
-
-
-# class ChatMessageListView(ListAPIView):
-#     serializer_class = ChatMessageSerializer
-#     permission_classes = (permissions.AllowAny,)
-
-#     # def get_queryset(self):
-#     #     queryset = ChatMessage.objects.all()
-#     #     username = self.request.query_params.get('room_name', None)
-#     #     if username is not None:
-#     #         contact = get_user_contact(username)
-#     #         queryset = contact.chats.all()
-#     #     return queryset
-#     def get_queryset(self):
-#         queryset = ChatMessage.objects.all()
-#         room_name = self.request.query_params.get('room_name', None)
-#         if room_name is not None:
-#             contact = get_user_contact(room_name)
-#             queryset = contact.chats.all()
-#         return queryset
 
 
 class ChatCreateView(CreateAPIView):
