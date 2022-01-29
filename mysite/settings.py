@@ -159,7 +159,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     # アクセストークン(1時間)
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
     # リフレッシュトークン(3日)
     'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
     # 認証タイプ
@@ -247,8 +247,6 @@ if not DEBUG:
 
     S3_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     MEDIA_URL = S3_URL
-    # AWS_LOCATION = 'static'
-    # STATIC_URL = 'http://%s/%s/' % (S3_URL, AWS_LOCATION)
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
 
