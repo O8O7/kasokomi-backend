@@ -40,11 +40,11 @@ class ChatMessageView(ModelViewSet):
 
 class CoinMarketView(ModelViewSet):
     permission_classes = (permissions.AllowAny, )
-    queryset = CoinMarketInfo.objects.all().order_by('-rank')
+    queryset = CoinMarketInfo.objects.all().order_by('rank')
     serializer_class = CoinMarketInfoSerializer
 
     def get_queryset(self):
-        queryset = CoinMarketInfo.objects.all().order_by('-rank')
+        queryset = CoinMarketInfo.objects.all().order_by('rank')
         coin_name = self.request.query_params.get('coin_name', None)
         if coin_name is not None:
             queryset = queryset.filter(name__icontains=coin_name)
