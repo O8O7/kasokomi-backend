@@ -14,7 +14,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-47$10)sj8p81rp*fy+8z88%9wn6xrxvzb+gov=s$%*s6xit(=_'
 
 
-ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost', '127.0.0.1', 'kasokomi.herokuapp.com']
+# ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1:8000', 'localhost', '127.0.0.1', 'kasokomi.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', 'kasokomi.herokuapp.com']
 
 
 # Application definition
@@ -168,18 +169,18 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', ),
 }
 
-AUTH_USER_MODEL = 'accounts.UserAccount'
+# AUTH_USER_MODEL = 'accounts.UserAccount'
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://kasokomi.site',
     'https://www.kasokomi.site',
     'https://kasokomi-frontend.vercel.app',
-    'http://localhost', 
-    'http://127.0.0.1'
+    # 'http://localhost', 
+    # 'http://127.0.0.1'
 )
 
-ASGI_APPLICATION = "mysite.asgi.application"
+# ASGI_APPLICATION = "mysite.asgi.application"
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
